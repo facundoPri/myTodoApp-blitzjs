@@ -24,13 +24,17 @@
     ]
   },
   "dependencies": {
+    "@chakra-ui/react": "1.7.2",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@prisma/client": "3.x",
     "blitz": "latest",
-    "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
-    "react": "18.0.0-beta-149b420f6-20211119",
-    "zod": "3.x",
     "final-form": "4.x",
-    "react-final-form": "6.x"
+    "framer-motion": "^4",
+    "react": "18.0.0-beta-149b420f6-20211119",
+    "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
+    "react-final-form": "6.x",
+    "zod": "3.x"
   },
   "devDependencies": {
     "@types/preview-email": "2.x",
@@ -38,8 +42,8 @@
     "eslint": "7.x",
     "husky": "7.x",
     "lint-staged": "11.x",
-    "prettier-plugin-prisma": "3.x",
     "prettier": "2.x",
+    "prettier-plugin-prisma": "3.x",
     "pretty-quick": "3.x",
     "preview-email": "3.x",
     "prisma": "3.x",
