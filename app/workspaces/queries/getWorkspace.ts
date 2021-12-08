@@ -9,7 +9,7 @@ const GetWorkspace = z.object({
 
 export default resolver.pipe(resolver.zod(GetWorkspace), resolver.authorize(), async ({ id }) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const workspace = await db.workspace.findFirst({ where: { id } })
+  const workspace = await db.workspace.findFirst({ where: { id }, include: { projects: true } })
 
   if (!workspace) throw new NotFoundError()
 
