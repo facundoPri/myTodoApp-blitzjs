@@ -1,25 +1,26 @@
-import { BlitzPage, useMutation } from "blitz"
-import Layout from "app/core/layouts/Layout"
+import { BlitzPage, Head, useMutation } from "blitz"
+import AuthenticationLayout from "app/core/layouts/AuthenticationLayout"
 import { LabeledTextField } from "app/core/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
 import { ForgotPassword } from "app/auth/validations"
 import forgotPassword from "app/auth/mutations/forgotPassword"
+import { Heading, Stack, Text } from "@chakra-ui/react"
 
 const ForgotPasswordPage: BlitzPage = () => {
   const [forgotPasswordMutation, { isSuccess }] = useMutation(forgotPassword)
 
   return (
-    <div>
-      <h1>Forgot your password?</h1>
+    <Stack>
+      <Heading>Forgot your password?</Heading>
 
       {isSuccess ? (
-        <div>
-          <h2>Request Submitted</h2>
-          <p>
+        <Stack>
+          <Heading size="sm">Request Submitted</Heading>
+          <Text>
             If your email is in our system, you will receive instructions to reset your password
             shortly.
-          </p>
-        </div>
+          </Text>
+        </Stack>
       ) : (
         <Form
           submitText="Send Reset Password Instructions"
@@ -38,11 +39,13 @@ const ForgotPasswordPage: BlitzPage = () => {
           <LabeledTextField name="email" label="Email" placeholder="Email" />
         </Form>
       )}
-    </div>
+    </Stack>
   )
 }
 
 ForgotPasswordPage.redirectAuthenticatedTo = "/"
-ForgotPasswordPage.getLayout = (page) => <Layout title="Forgot Your Password?">{page}</Layout>
+ForgotPasswordPage.getLayout = (page) => (
+  <AuthenticationLayout title="Forgot Your Password?">{page}</AuthenticationLayout>
+)
 
 export default ForgotPasswordPage

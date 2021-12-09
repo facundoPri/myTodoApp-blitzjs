@@ -1,23 +1,24 @@
-import {useRouter, BlitzPage} from "blitz"
-import Layout from "app/core/layouts/Layout"
-import {LoginForm} from "app/auth/components/LoginForm"
+import { useRouter, BlitzPage } from "blitz"
+import AuthenticationLayout from "app/core/layouts/AuthenticationLayout"
+import { LoginForm } from "app/auth/components/LoginForm"
+import { Box } from "@chakra-ui/react"
 
 const LoginPage: BlitzPage = () => {
   const router = useRouter()
 
   return (
-    <div>
+    <Box>
       <LoginForm
         onSuccess={(_user) => {
           const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
           router.push(next)
         }}
       />
-    </div>
+    </Box>
   )
 }
 
 LoginPage.redirectAuthenticatedTo = "/"
-LoginPage.getLayout = (page) => <Layout title="Log In">{page}</Layout>
+LoginPage.getLayout = (page) => <AuthenticationLayout title="Log In">{page}</AuthenticationLayout>
 
 export default LoginPage

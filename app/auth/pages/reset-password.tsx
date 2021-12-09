@@ -1,25 +1,26 @@
 import { BlitzPage, useRouterQuery, Link, useMutation, Routes } from "blitz"
-import Layout from "app/core/layouts/Layout"
+import AuthenticationLayout from "app/core/layouts/AuthenticationLayout"
 import { LabeledTextField } from "app/core/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
 import { ResetPassword } from "app/auth/validations"
 import resetPassword from "app/auth/mutations/resetPassword"
+import { Heading, Stack, Text } from "@chakra-ui/react"
 
 const ResetPasswordPage: BlitzPage = () => {
   const query = useRouterQuery()
   const [resetPasswordMutation, { isSuccess }] = useMutation(resetPassword)
 
   return (
-    <div>
-      <h1>Set a New Password</h1>
+    <Stack>
+      <Heading>Set a New Password</Heading>
 
       {isSuccess ? (
-        <div>
-          <h2>Password Reset Successfully</h2>
-          <p>
+        <Stack>
+          <Heading size="sm">Password Reset Successfully</Heading>
+          <Text>
             Go to the <Link href={Routes.Home()}>homepage</Link>
-          </p>
-        </div>
+          </Text>
+        </Stack>
       ) : (
         <Form
           submitText="Reset Password"
@@ -49,11 +50,13 @@ const ResetPasswordPage: BlitzPage = () => {
           />
         </Form>
       )}
-    </div>
+    </Stack>
   )
 }
 
 ResetPasswordPage.redirectAuthenticatedTo = "/"
-ResetPasswordPage.getLayout = (page) => <Layout title="Reset Your Password">{page}</Layout>
+ResetPasswordPage.getLayout = (page) => (
+  <AuthenticationLayout title="Reset Your Password">{page}</AuthenticationLayout>
+)
 
 export default ResetPasswordPage
