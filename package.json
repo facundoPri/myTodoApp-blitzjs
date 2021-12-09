@@ -3,13 +3,23 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "blitz dev",
+    "dev-debug": "NODE_OPTIONS='--inspect' blitz dev",
     "build": "blitz build",
     "start": "blitz start",
+    "start:production": "blitz start --port $PORT",
     "studio": "blitz prisma studio",
+    "prisma:migrate": "blitz prisma migrate dev",
+    "prisma:push": "blitz prisma db push",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "jest",
+    "test:prepare": "NODE_ENV=test blitz prisma db push",
     "test:watch": "jest --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docker:up": "docker compose up -d",
+    "postinstall": "blitz prisma generate"
+  },
+  "engines": {
+    "node": "14.x"
   },
   "prisma": {
     "schema": "db/schema.prisma"
@@ -32,12 +42,17 @@
     "blitz": "latest",
     "final-form": "4.x",
     "framer-motion": "^4",
+    "next-seo": "4.28.1",
     "react": "18.0.0-beta-149b420f6-20211119",
     "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
     "react-final-form": "6.x",
+    "react-hook-form": "7.21.0",
+    "react-icons": "4.3.1",
     "zod": "3.x"
   },
   "devDependencies": {
+    "@hookform/devtools": "4.0.1",
+    "@hookform/resolvers": "2.8.4",
     "@types/preview-email": "2.x",
     "@types/react": "17.x",
     "eslint": "7.x",
