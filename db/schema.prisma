@@ -86,6 +86,17 @@ model Project {
   updatedAt   DateTime  @updatedAt
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId Int
+  tasks       Task[]
 
   @@unique([name, workspaceId], map: "nameWorkspaceIdUnique")
+}
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId Int?
 }
