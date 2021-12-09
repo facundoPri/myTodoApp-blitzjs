@@ -8,7 +8,7 @@ import { Form, FORM_ERROR } from "app/core/components/Form"
 import { FormTextInput } from "app/core/components/Forms/FormTextInput"
 import { Link } from "app/core/components/Link"
 import { PageTitle } from "app/core/components/PageTitle"
-import { AuthenticationError, Routes, useMutation } from "blitz"
+import { AuthenticationError, PromiseReturnType, Routes, useMutation } from "blitz"
 
 type LoginFormProps = {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void
