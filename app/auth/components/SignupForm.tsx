@@ -1,9 +1,13 @@
-import { Link, Routes, useMutation } from "blitz"
-import { LabeledTextField } from "app/core/components/LabeledTextField"
-import { Form, FORM_ERROR } from "app/core/components/Form"
+import { useColorModeValue } from "@chakra-ui/color-mode"
+import { Box, Text } from "@chakra-ui/layout"
 import signup from "app/auth/mutations/signup"
 import { Signup } from "app/auth/validations"
-import { Heading, HStack, Stack, Text } from "@chakra-ui/react"
+import { Card } from "app/core/components/Card"
+import { Form, FORM_ERROR } from "app/core/components/Form"
+import { FormTextInput } from "app/core/components/Forms/FormTextInput"
+import { Link } from "app/core/components/Link"
+import { PageTitle } from "app/core/components/PageTitle"
+import { Routes, useMutation } from "blitz"
 
 type SignupFormProps = {
   onSuccess?: () => void
@@ -13,8 +17,8 @@ export const SignupForm = (props: SignupFormProps) => {
   const [signupMutation] = useMutation(signup)
 
   return (
-    <Stack maxW="500px" m="auto">
-      <Heading>Create an Account</Heading>
+    <Card>
+      <PageTitle>Create an Account</PageTitle>
 
       <Form
         submitText="Create Account"
@@ -34,17 +38,25 @@ export const SignupForm = (props: SignupFormProps) => {
           }
         }}
       >
-        <LabeledTextField name="email" label="Email" placeholder="Email" />
-        <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
+        <FormTextInput type="email" name="email" label="Email" placeholder="Email" />
+        <FormTextInput type="password" name="password" label="Password" placeholder="Password" />
       </Form>
 
-      <HStack>
-        <Text>Go to</Text>
-        <Link href={Routes.LoginPage()}>
-          <a>Login Page</a>
-        </Link>
-      </HStack>
-    </Stack>
+      <Box
+        mt={5}
+        textAlign="center"
+        borderTop="1px solid"
+        borderTopColor={useColorModeValue("gray.100", "gray.700")}
+        pt={5}
+      >
+        <Text>
+          Already have an account?{" "}
+          <Link href={Routes.LoginPage()} colorScheme="brand">
+            Login
+          </Link>
+        </Text>
+      </Box>
+    </Card>
   )
 }
 
