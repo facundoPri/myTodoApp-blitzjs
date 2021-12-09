@@ -37,7 +37,7 @@ export const EditWorkspace = () => {
           initialValues={workspace}
           onSubmit={async (values) => {
             try {
-              const updated = await updateWorkspaceMutation({
+              const updated: any = await updateWorkspaceMutation({
                 id: workspace.id,
                 ...values,
               })
