@@ -1,5 +1,6 @@
-import { Flex, useColorModeValue } from "@chakra-ui/react"
+import { Flex, Stack, useColorModeValue } from "@chakra-ui/react"
 import { Head, BlitzLayout } from "blitz"
+import SideBar from "../components/SideBar"
 
 const Layout: BlitzLayout<{ title?: string }> = ({ title, children, ...rest }) => {
   const bg = useColorModeValue("white", "black")
@@ -11,8 +12,11 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children, ...rest }) =
         <title>{title || "myTodoApp"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Flex direction="column" bg={bg} color={color} minH="100vh" {...rest}>
-        {children}
+      <Flex bg={bg} color={color}>
+        <SideBar />
+        <Stack bg={bg} color={color} minH="100vh" {...rest}>
+          {children}
+        </Stack>
       </Flex>
     </>
   )
