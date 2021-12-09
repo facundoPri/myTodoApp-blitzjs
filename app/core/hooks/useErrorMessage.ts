@@ -7,7 +7,7 @@ export const useErrorMessage = <
   name: TName,
   label?: string
 ) => {
-  const ctx = useFormContext<T>()
+  const ctx = useFormContext()
   const error = ctx.formState.errors?.[name]
 
   const errorString = Array.isArray(error)
