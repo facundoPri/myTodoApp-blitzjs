@@ -17,9 +17,12 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   name           String?
+  username       String?  @unique
   email          String   @unique
   hashedPassword String?
   role           String   @default("USER")
+
+  workspaces Workspace[]
 
   tokens   Token[]
   sessions Session[]
@@ -70,6 +73,10 @@ model Workspace {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   projects  Project[]
+  owner     User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   Int
+
+  @@unique([name, ownerId], map: "nameOwnerIdUnique")
 }
 
 model Project {
@@ -77,6 +84,8 @@ model Project {
   name        String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId Int
+
+  @@unique([name, workspaceId], map: "nameWorkspaceIdUnique")
 }
