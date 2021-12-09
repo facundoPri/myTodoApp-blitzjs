@@ -4,7 +4,7 @@ import getWorkspace from "../queries/getWorkspace"
 
 const Item = ({ name, onClick }) => (
   <Tooltip label={name} placement="auto">
-    <Avatar name={name} onClick={onClick} />
+    <Avatar name={name} onClick={onClick} cursor={"pointer"} />
   </Tooltip>
 )
 
