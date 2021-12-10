@@ -1,21 +1,11 @@
 import { Suspense } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, BlitzPage, Routes } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, BlitzPage, Routes, useQuery } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getWorkspaces from "app/workspaces/queries/getWorkspaces"
-
-const ITEMS_PER_PAGE = 100
+import WorkspaceCollapsableItem from "app/workspaces/components/WorkspaceCollapsableItem"
 
 export const WorkspacesList = () => {
-  const router = useRouter()
-  const page = Number(router.query.page) || 0
-  const [{ workspaces, hasMore }] = usePaginatedQuery(getWorkspaces, {
-    orderBy: { id: "asc" },
-    skip: ITEMS_PER_PAGE * page,
-    take: ITEMS_PER_PAGE,
-  })
-
-  const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
-  const goToNextPage = () => router.push({ query: { page: page + 1 } })
+  const [workspaces] = useQuery(getWorkspaces, {})
 
   return (
     <div>
@@ -25,16 +15,10 @@ export const WorkspacesList = () => {
             <Link href={Routes.ShowWorkspacePage({ workspaceId: workspace.id })}>
               <a>{workspace.name}</a>
             </Link>
+            <WorkspaceCollapsableItem workspaceId={workspace.id} isLink={true} isActive={true} />
           </li>
         ))}
       </ul>
-
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
     </div>
   )
 }
