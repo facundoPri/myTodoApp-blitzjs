@@ -1,11 +1,16 @@
-import { Checkbox, HStack, Skeleton, SkeletonText, Stack, Text, useBoolean } from "@chakra-ui/react"
-import { useQuery } from "blitz"
+import { Button, Checkbox, HStack, SkeletonText, Text, useBoolean } from "@chakra-ui/react"
+import { useMutation, useQuery } from "blitz"
 import React, { Suspense } from "react"
+import deleteTask from "../mutations/deleteTask"
 import getTask from "../queries/getTask"
 
 export const TaskItem = ({ taskId, initialState = false }) => {
   const [state, setState] = useBoolean(initialState)
   const [task] = useQuery(getTask, { id: taskId })
+  // const [updateTaskMutation] = useMutation(updateTask)
+  const [deleteTaskMutation] = useMutation(deleteTask)
+
+  if (!task) return null
 
   return (
     <HStack
@@ -27,6 +32,18 @@ export const TaskItem = ({ taskId, initialState = false }) => {
           {task?.name}
         </Text>
       </Suspense>
+
+      <Button
+        type="button"
+        onClick={async () => {
+          if (window.confirm("This will be deleted")) {
+            await deleteTaskMutation({ id: task.id })
+          }
+        }}
+        style={{ marginLeft: "0.5rem" }}
+      >
+        Delete
+      </Button>
     </HStack>
   )
 }
