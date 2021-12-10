@@ -7,11 +7,21 @@ const GetWorkspace = z.object({
   id: z.number().optional().refine(Boolean, "Required"),
 })
 
-export default resolver.pipe(resolver.zod(GetWorkspace), resolver.authorize(), async ({ id }) => {
-  // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const workspace = await db.workspace.findFirst({ where: { id }, include: { projects: true } })
+export default resolver.pipe(
+  resolver.zod(GetWorkspace),
+  resolver.authorize(),
+  async ({ id }, ctx) => {
+    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
+    const workspace = await db.workspace.findFirst({
+      where: {
+        id: id,
+        ownerId: ctx.session.userId,
+      },
+      include: { projects: true },
+    })
 
-  if (!workspace) throw new NotFoundError()
+    if (!workspace) throw new NotFoundError()
 
-  return workspace
-})
+    return workspace
+  }
+)
