@@ -38,7 +38,7 @@ export const EditProject = () => {
           initialValues={project}
           onSubmit={async (values) => {
             try {
-              const updated = await updateProjectMutation({
+              const updated: any = await updateProjectMutation({
                 id: project.id,
                 ...values,
               })
