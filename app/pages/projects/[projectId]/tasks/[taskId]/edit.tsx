@@ -1,5 +1,15 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, BlitzPage, Routes } from "blitz"
+import {
+  Head,
+  Link,
+  useRouter,
+  useQuery,
+  useMutation,
+  useParam,
+  BlitzPage,
+  Routes,
+  NotFoundError,
+} from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTask from "app/tasks/queries/getTask"
 import updateTask from "app/tasks/mutations/updateTask"
@@ -19,14 +29,16 @@ export const EditTask = () => {
   )
   const [updateTaskMutation] = useMutation(updateTask)
 
+  if (!task) throw new NotFoundError()
+
   return (
     <>
       <Head>
-        <title>Edit Task {task.id}</title>
+        <title>Edit Task {task?.id}</title>
       </Head>
 
       <div>
-        <h1>Edit Task {task.id}</h1>
+        <h1>Edit Task {task?.id}</h1>
         <pre>{JSON.stringify(task, null, 2)}</pre>
 
         <TaskForm
@@ -39,7 +51,7 @@ export const EditTask = () => {
           onSubmit={async (values) => {
             try {
               const updated = await updateTaskMutation({
-                id: task.id,
+                id: task?.id,
                 ...values,
               })
               await setQueryData(updated)
