@@ -1,5 +1,15 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useParam, BlitzPage, useMutation, Routes } from "blitz"
+import {
+  Head,
+  Link,
+  useRouter,
+  useQuery,
+  useParam,
+  BlitzPage,
+  useMutation,
+  Routes,
+  NotFoundError,
+} from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTask from "app/tasks/queries/getTask"
 import deleteTask from "app/tasks/mutations/deleteTask"
@@ -11,17 +21,19 @@ export const Task = () => {
   const [deleteTaskMutation] = useMutation(deleteTask)
   const [task] = useQuery(getTask, { id: taskId })
 
+  if (!task) throw new NotFoundError()
+
   return (
     <>
       <Head>
-        <title>Task {task.id}</title>
+        <title>Task {task?.id}</title>
       </Head>
 
       <div>
-        <h1>Task {task.id}</h1>
+        <h1>Task {task?.id}</h1>
         <pre>{JSON.stringify(task, null, 2)}</pre>
 
-        <Link href={Routes.EditTaskPage({ projectId: projectId!, taskId: task.id })}>
+        <Link href={Routes.EditTaskPage({ projectId: projectId!, taskId: task?.id })}>
           <a>Edit</a>
         </Link>
 
@@ -29,7 +41,7 @@ export const Task = () => {
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
-              await deleteTaskMutation({ id: task.id })
+              await deleteTaskMutation({ id: task?.id })
               router.push(Routes.TasksPage({ projectId: projectId! }))
             }
           }}
