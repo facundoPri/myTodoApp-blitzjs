@@ -10,9 +10,9 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children, ...rest }) =
   return (
     <>
       <NextSeo title={title} />
-      <Flex bg={bg} color={color}>
+      <Flex bg={bg} color={color} w="full">
         <SideBar />
-        <Stack bg={bg} color={color} minH="100vh" {...rest}>
+        <Stack bg={bg} color={color} minH="100vh" w="full" {...rest}>
           {children}
         </Stack>
       </Flex>
