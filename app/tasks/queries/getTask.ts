@@ -11,7 +11,7 @@ export default resolver.pipe(resolver.zod(GetTask), resolver.authorize(), async 
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
   const task = await db.task.findFirst({ where: { id } })
 
-  if (!task) throw new NotFoundError()
+  // if (!task) throw new NotFoundError()
 
   return task
 })
