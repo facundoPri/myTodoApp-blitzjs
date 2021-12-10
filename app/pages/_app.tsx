@@ -14,6 +14,7 @@ import { ChakraProvider } from "@chakra-ui/react"
 import theme from "../core/theme"
 import { APP_NAME } from "app/config"
 import { DefaultSeo } from "next-seo"
+import { ReactQueryDevtools } from "react-query/devtools"
 
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
           onReset={useQueryErrorResetBoundary().reset}
         >
           {getLayout(<Component {...pageProps} />)}
+          <ReactQueryDevtools initialIsOpen={false} />
         </ErrorBoundary>
       </ChakraProvider>
     </>

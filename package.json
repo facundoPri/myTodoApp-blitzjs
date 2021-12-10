@@ -48,6 +48,7 @@
     "react-final-form": "6.x",
     "react-hook-form": "7.21.0",
     "react-icons": "4.3.1",
+    "react-query-devtools": "2.6.3",
     "zod": "3.x"
   },
   "devDependencies": {
