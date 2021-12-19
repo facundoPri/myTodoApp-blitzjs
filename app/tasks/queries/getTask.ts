@@ -9,7 +9,7 @@ const GetTask = z.object({
 
 export default resolver.pipe(resolver.zod(GetTask), resolver.authorize(), async ({ id }) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const task = await db.task.findFirst({ where: { id } })
+  const task = await db.task.findUnique({ where: { id } })
 
   // if (!task) throw new NotFoundError()
 
