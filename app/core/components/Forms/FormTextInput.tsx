@@ -13,6 +13,7 @@ import { Control, ControlProps } from "./Control"
 
 export interface FormTextInputProps extends ControlProps {
   type?: "text" | "password" | "email" | "number"
+  variant?: string
 }
 
 export const FormTextInput = ({ children, ...props }: PropsWithChildren<FormTextInputProps>) => {

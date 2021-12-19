@@ -80,7 +80,7 @@ export function Form<S extends z.ZodType<any, any>>({
       <FormProvider {...ctx}>
         <Box
           as="form"
-          onSubmit={ctx.handleSubmit(async (values) => {
+          onSubmit={ctx.handleSubmit(async (values, e) => {
             const result = (await onSubmit(values)) || {}
             for (const [key, value] of Object.entries(result)) {
               if (key === FORM_ERROR) {
@@ -92,6 +92,7 @@ export function Form<S extends z.ZodType<any, any>>({
                 })
               }
             }
+            e?.target.reset()
           })}
         >
           <Stack spacing={6}>
