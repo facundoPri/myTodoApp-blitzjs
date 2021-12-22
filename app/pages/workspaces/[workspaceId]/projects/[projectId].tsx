@@ -13,7 +13,17 @@ import {
 import Layout from "app/core/layouts/Layout"
 import getProject from "app/projects/queries/getProject"
 import deleteProject from "app/projects/mutations/deleteProject"
-import { Button, Heading, HStack, Icon, Input, Stack, Text, useBoolean } from "@chakra-ui/react"
+import {
+  Button,
+  Divider,
+  Heading,
+  HStack,
+  Icon,
+  Input,
+  Stack,
+  Text,
+  useBoolean,
+} from "@chakra-ui/react"
 import { TaskItem } from "app/tasks/components/TaskItem"
 import getTasks from "app/tasks/queries/getTasks"
 import { AddIcon } from "@chakra-ui/icons"
@@ -26,8 +36,6 @@ export const Project = () => {
   const workspaceId = useParam("workspaceId", "number")
   const [deleteProjectMutation] = useMutation(deleteProject)
   const [project] = useQuery(getProject, { id: projectId })
-
-  const [addTask, setAddTask] = useBoolean(false)
 
   const [createTaskMutation] = useMutation(createTask)
   const [tasks, { setQueryData }] = useQuery(
@@ -68,37 +76,32 @@ export const Project = () => {
           </Button>
         </HStack>
 
-        <Stack>
+        <Stack spacing="0" maxW="500px">
           {tasks?.map((task) => (
-            <TaskItem key={task.id} taskId={task.id} />
+            <>
+              <TaskItem key={task.id} taskId={task.id} />
+              <Divider />
+            </>
           ))}
-
-          {addTask ? (
-            <TaskForm
-              // submitText="Create Task"
-              // TODO use a zod schema for form validation
-              //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-              //         then import and use it here
-              // schema={CreateTask}
-              // initialValues={{}}
-              onSubmit={async (values) => {
-                try {
-                  const task = await createTaskMutation({ ...values, projectId: projectId! })
-                  await setQueryData([...tasks, task])
-                  setAddTask.off()
-                } catch (error: any) {
-                  console.error(error)
-                  return {
-                    [FORM_ERROR]: error.toString(),
-                  }
+          <TaskForm
+            // submitText="Create Task"
+            // TODO use a zod schema for form validation
+            //  - Tip: extract mutation's schema into a shared `validations.ts` file and
+            //         then import and use it here
+            // schema={CreateTask}
+            // initialValues={{}}
+            onSubmit={async (values) => {
+              try {
+                const task = await createTaskMutation({ ...values, projectId: projectId! })
+                await setQueryData([...tasks, task])
+              } catch (error: any) {
+                console.error(error)
+                return {
+                  [FORM_ERROR]: error.toString(),
                 }
-              }}
-            />
-          ) : (
-            <Button leftIcon={<AddIcon />} onClick={setAddTask.on}>
-              <Text>Add Task</Text>
-            </Button>
-          )}
+              }
+            }}
+          />
         </Stack>
       </Stack>
     </>
